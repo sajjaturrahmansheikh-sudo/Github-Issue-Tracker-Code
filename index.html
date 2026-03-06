@@ -19,9 +19,49 @@
 
 </head>
 
-<body>
+<body class="min-h-screen max-w-md mx-auto bg-[#F8FAFC]">
 
-    
+
+    <header class="space-y-4">
+
+        <div class="w-28 mx-auto pt-20">
+            <img src="./assets/github-logo.png" alt="">
+        </div>
+        <div class="text-center space-y-2">
+            <h2 class="font-semibold text-[#1F2937] text-2xl">GitHub Issues Tracker</h2>
+            <p class="text-[#64748B]">Sign in to manage your issues</p>
+        </div>
+
+
+    </header>
+
+
+    <section class="mt-10">
+
+        <div class="mx-auto w-full">
+
+            <fieldset class="fieldset bg-base-200 w-full rounded-box  p-4">
+
+                <label class="label text-[#1F2937] font-medium">Username</label>
+                <input id="inputUsername" type="email" class="input w-full" placeholder="Enter Username" />
+                <p class="text-primary">Default:admin</p>
+                <label class="label text-[#1F2937] font-medium">Password</label>
+                <input id="inputPassword" type="password" class="input w-full" placeholder="Enter Password" />
+                <p class="text-primary">Default:admin123</p>
+                <button id="signInBtn" class="btn btn-primary mt-4">Sign In</button>
+            </fieldset>
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+
 
 
     <script src="./js/login.js"></script>
