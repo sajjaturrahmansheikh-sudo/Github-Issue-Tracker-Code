@@ -18,6 +18,6 @@ signInBtn.addEventListener("click", () => {
     }
     if(inputUserName === "admin" && inputPassword === "admin123"){
         alert("SignIn Success");
-        window.location.assign("./index2.html");
+        window.location.assign("/index2.html");
     }
 })
