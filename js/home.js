@@ -31,7 +31,7 @@ const filterIssues = (status, btn) => {
     const filtered = allIssues.filter(issue => issue.status === status);
     setTimeout(() => {
         displayIssue(filtered);
-    },300);
+    }, 300);
 }
 
 
@@ -180,6 +180,21 @@ const openIssueModal = async (issuesId) => {
 }
 
 
+
+document.getElementById("search-btn").addEventListener("click", () => {
+    const input = document.getElementById("input-search");
+    const inputValue = input.value.trim();
+    console.log(inputValue);
+
+    fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+        .then(res => res.json())
+        .then(data => {
+            const allDatas = data.data;
+            const filterDatas = allDatas.filter((word) => word.title.toLowerCase().includes(inputValue));
+
+            displayIssue(filterDatas)
+        });
+})
 
 
 
