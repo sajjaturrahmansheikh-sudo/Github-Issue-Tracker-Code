@@ -1,14 +1,50 @@
+const loadingSpinner = document.getElementById("loading-spinner");
+let allIssues = [];
 
 
+const manageSpinner = (status) => {
+    if (status === true) {
+        loadingSpinner.classList.remove("hidden");
+        document.getElementById("card-container").classList.add("hidden");
+    } else {
+        loadingSpinner.classList.add("hidden");
+        document.getElementById("card-container").classList.remove("hidden");
+    }
+}
 
+
+const filterIssues = (status, btn) => {
+
+    // remove active button
+    manageSpinner(true)
+    document.querySelectorAll(".filter-btn").forEach(button => {
+        button.classList.remove("btn-primary");
+        button.classList.add("btn-outline");
+    })
+    btn.classList.add("btn-primary")
+    btn.classList.remove("btn-outline")
+
+    if (status === 'all') {
+        displayIssue(allIssues);
+        return;
+    }
+    const filtered = allIssues.filter(issue => issue.status === status);
+    setTimeout(() => {
+        displayIssue(filtered);
+    },300);
+}
 
 
 
 
 const loadIssues = () => {
+    manageSpinner(true);
     fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
         .then(res => res.json())
-        .then(data => displayIssue(data.data))
+        .then(data => {
+            allIssues = data.data;
+            displayIssue(allIssues);
+        });
 }
 
 
@@ -34,14 +70,20 @@ const loadIssues = () => {
 const displayIssue = (datas) => {
     const cardContainer = document.getElementById("card-container");
     cardContainer.innerHTML = "";
+
+    // Issue Count 
+
+    document.getElementById("issue-count").innerText = datas.length + " Issues";
+
     datas.forEach(data => {
         const card = document.createElement("div");
         card.className = `card card-body  shadow-sm bg-white space-y-4 border-t-3 ${data.status == "open" ? "border-green-500" : "border-[#A855F7]"}`;
-        card.onclick = () => openIssueModal(data.id)
+        card.onclick = () => openIssueModal(`${data.id}`)
         card.innerHTML = `
             <div>
                                 <div class="flex justify-between items-center">
-                                    <img src="${data.status == 'open' ? './assets/Open-Status.png' : './assets/Closed- Status .png'}" alt="">
+                                    <img src="${data.status == 'open' ? './assets/Open-Status.png' :
+                './assets/Close.png'}" alt="">
                                     <button class="btn btn-soft ${data.priority == 'medium' ? 'btn-warning' : data.priority == 'low' ? 'btn-soft text-[#9CA3AF]' : 'btn-error'} rounded-full"> ${data.priority.toUpperCase()} </button>
                                 </div>
                             </div>
@@ -71,7 +113,9 @@ const displayIssue = (datas) => {
         `
 
         cardContainer.append(card);
+
     });
+    manageSpinner(false)
 }
 
 const openIssueModal = async (issuesId) => {
@@ -82,8 +126,8 @@ const openIssueModal = async (issuesId) => {
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${issuesId}`)
     const data = await res.json();
     const cardDetails = data.data
-    
-    
+
+
     const cardModal = document.createElement("div");
     cardModal.innerHTML = `
         <dialog id="Issue_Details" class="modal">
@@ -91,7 +135,7 @@ const openIssueModal = async (issuesId) => {
                     <div class="space-y-4">
                         <h3 class="text-2xl text-[#1F2937] font-bold">${cardDetails.title}</h3>
                         <ul class="flex gap-8 items-center list-disc">
-                            <li class="btn text-white ${cardDetails.status == 'open'? 'btn-success': 'bg-[#A855F7]'} rounded-full"> ${cardDetails.status}</li>
+                            <li class="btn text-white ${cardDetails.status == 'open' ? 'btn-success' : 'bg-[#A855F7]'} rounded-full"> ${cardDetails.status}</li>
                             <li class="text-[12px] text-[#64748B]">opened by ${cardDetails.assignee} </li>
                             <li class="text-[12px] text-[#64748B]">${cardDetails.createdAt}</li>
                         </ul>

@@ -70,9 +70,9 @@
                 <div class="bg-white p-10">
                     <div class="flex gap-3">
 
-                        <button class="btn btn-primary">All</button>
-                        <button class="btn btn-outline">Open</button>
-                        <button class="btn btn-outline">Close</button>
+                        <button onclick="filterIssues('all',this)" class="filter-btn btn btn-primary">All</button>
+                        <button onclick="filterIssues('open',this)" class="filter-btn btn btn-outline">Open</button>
+                        <button onclick="filterIssues('closed',this)" class="filter-btn btn btn-outline">Close</button>
 
                     </div>
 
@@ -95,7 +95,7 @@
                                     <img class="w-12" src="./assets/Aperture.png" alt="">
                                 </div>
                                 <div>
-                                    <h2 class="text-[#1F2937] text-[20px] font-semibold">50 Issues</h2>
+                                    <h2 id="issue-count" class="text-[#1F2937] text-[20px] font-semibold">0 Issues</h2>
                                     <p class="text-[#64748B]">Track and manage your project issues</p>
                                 </div>
                             </div>
@@ -120,11 +120,15 @@
         <!-- Open the modal using ID.showModal() method -->
         <!-- <button class="btn" onclick="Issue_Details.showModal()">open modal</button> -->
         <div id="modal-container">
-        
-                
+
+
         </div>
 
+        <!-- Loading  -->
 
+        <div id="loading-spinner" class="flex justify-center items-center h-[60vh] hidden">
+            <span class="loading loading-spinner loading-xl"></span>
+        </div>
 
         <!-- Issue cards -->
 
